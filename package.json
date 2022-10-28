@@ -1,0 +1,37 @@
+{
+  "name": "sub-graph-proxy",
+  "license": "UNLICENSED",
+  "scripts": {
+    "lint": "eslint .",
+    "generate-bsc": "yarn codegen:tornado-bsc && yarn build:tornado-bsc",
+    "generate-mainnet": "yarn codegen:tornado-mainnet && yarn build:tornado-mainnet",
+    "yaml:tornado-bsc": "node ./create-yaml-file create-yaml -e bsc | mustache - mustache/yaml.mustache > subgraphs/tornado-subgraph-bsc.yaml",
+    "yaml:tornado-mainnet": "node ./create-yaml-file create-yaml -e mainnet | mustache - mustache/yaml.mustache > subgraphs/tornado-subgraph-mainnet.yaml",
+    "codegen": "graph codegen",
+    "codegen:tornado-bsc": "yarn yaml:tornado-bsc && yarn codegen -- subgraphs/tornado-subgraph-bsc.yaml",
+    "codegen:tornado-mainnet": "yarn yaml:tornado-mainnet && yarn codegen -- subgraphs/tornado-subgraph-mainnet.yaml",
+    "build": "graph build",
+    "build:tornado-bsc": "graph build subgraphs/tornado-subgraph-bsc.yaml",
+    "build:tornado-mainnet": "graph build subgraphs/tornado-subgraph-mainnet.yaml",
+    "deploy": "graph deploy --node https://api.thegraph.com/deploy/ --ipfs https://api.thegraph.com/ipfs/ --access-token $TOKEN",
+    "deploy:tornado-bsc": "yarn deploy -- tornadocash/bsc-tornado-subgraph subgraphs/tornado-subgraph-bsc.yaml",
+    "deploy:tornado-mainnet": "yarn deploy -- tornadocash/mainnet-tornado-subgraph subgraphs/tornado-subgraph-mainnet.yaml"
+  },
+  "dependencies": {
+    "@graphprotocol/graph-cli": "0.20.0",
+    "@graphprotocol/graph-ts": "0.20.0"
+  },
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^4.26.1",
+    "@typescript-eslint/parser": "^4.26.1",
+    "commander": "^7.2.0",
+    "eslint": "^7.28.0",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-import-resolver-typescript": "^2.4.0",
+    "eslint-plugin-import": "^2.23.4",
+    "eslint-plugin-prettier": "^3.4.0",
+    "mustache": "^4.2.0",
+    "prettier": "^2.3.1",
+    "typescript": "^4.3.2"
+  }
+}
